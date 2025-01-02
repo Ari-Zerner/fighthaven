@@ -28,6 +28,15 @@ outputFormats:
     mediaType: "application/rss+xml"
     baseName: "index"
 
+params:
+  description: "The Bay Area Rationalist Fight Club"
+  homeSubtitle: "The Bay Area Rationalist Fight Club"
+  # Hello Friend NG-specific params
+  dateFormat: "02 Jan 2006"
+  logo:
+    logoText: "Fighthaven"
+    logoHomeLink: "/"
+
 # Menu example (if you want top nav items)
 menu:
   main:

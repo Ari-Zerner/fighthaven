@@ -45,6 +45,6 @@ menu:
       url: "/events/"
     - identifier: "discord"
       name: "Discord"
-      url: "https://discord.gg/fighthaven"
+      url: "https://discord.gg/SXhm3aQUA3"
       params:
         newTab: true

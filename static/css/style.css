@@ -1,0 +1,397 @@
+:root {
+    --primary-color: #1a1a1a;
+    --secondary-color: #2d2d2d;
+    --accent-color: #ff3e00;
+    --text-color: #e0e0e0;
+    --text-muted: #999;
+    --background-color: #121212;
+    --border-color: #333;
+    --header-height: 70px;
+    --container-width: 1000px;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --card-background: #1d1d1d;
+    --hover-background: #252525;
+    --discord-color: #5865F2;
+    --discord-hover: #4752c4;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --primary-color: #ffffff;
+        --secondary-color: #f5f5f5;
+        --text-color: #333333;
+        --text-muted: #666666;
+        --background-color: #ffffff;
+        --border-color: #eaeaea;
+        --card-background: #ffffff;
+        --hover-background: #f5f5f5;
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: var(--background-color);
+    letter-spacing: 0.015em;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    z-index: 1000;
+    box-shadow: var(--shadow);
+}
+
+nav {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+nav h1 a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+nav a:hover {
+    color: var(--accent-color);
+    background: var(--hover-background);
+}
+
+main {
+    margin-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height) - 100px);
+    padding: 3rem 20px;
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.event-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.event-item {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--card-background);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+a.event-link:hover .event-item {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    background: var(--hover-background);
+}
+
+/* Ensure nested links still work and look distinct */
+.event-item .meetup-button {
+    position: relative;
+    z-index: 1;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background: var(--card-background);
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    transition: all 0.2s ease;
+}
+
+.event-item .meetup-button:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.event-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.event-item p {
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+}
+
+.event-item .date {
+    font-weight: 500;
+    color: var(--accent-color);
+}
+
+.event-item .location,
+.event-item .meetup-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.event-item .meetup-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.event-item .meetup-link a:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    margin-top: 2rem;
+}
+
+.back-link a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-link a:hover {
+    color: var(--accent-color);
+}
+
+.event-content {
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.event-content a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+footer {
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+    background: var(--primary-color);
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: #ff6b3d;
+}
+
+.welcome-section {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.welcome-section h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--accent-color), #ff6b3d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-section p {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+    padding: 0 20px;
+}
+
+.cta-buttons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 20px;
+}
+
+.primary-button, .discord-button {
+    display: inline-block;
+    padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    white-space: nowrap;
+}
+
+.primary-button {
+    background: linear-gradient(45deg, var(--accent-color), #ff6b3d);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 62, 0, 0.3);
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 62, 0, 0.4);
+    color: white;
+}
+
+.discord-button {
+    background: linear-gradient(45deg, var(--discord-color), #4752c4);
+    color: white;
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+}
+
+.discord-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+    color: white;
+    background: linear-gradient(45deg, #4752c4, var(--discord-color));
+}
+
+#next-event-container {
+    margin-top: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+#next-event-container .event-item {
+    border: 2px solid var(--accent-color);
+    background: linear-gradient(135deg, var(--card-background), var(--hover-background));
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    :root {
+        --container-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        padding: 1rem;
+        height: auto;
+    }
+    
+    header {
+        height: auto;
+        position: relative;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    main {
+        margin-top: 0;
+        padding: 2rem 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .primary-button, .discord-button {
+        text-align: center;
+    }
+
+    .event-item {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .event-item h3 {
+        font-size: 1.2rem;
+    }
+    
+    .welcome-section {
+        padding: 2rem 0;
+    }
+}
+
+/* Dark mode image adjustments */
+@media (prefers-color-scheme: dark) {
+    img {
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+    
+    img:hover {
+        opacity: 1;
+    }
+}

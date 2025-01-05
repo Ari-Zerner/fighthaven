@@ -1,5 +1,7 @@
-# Generated files by hugo
+# Generated files
 /public/
-/resources/_gen/
-/assets/jsconfig.json
-/.hugo_build.lock
+/node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db

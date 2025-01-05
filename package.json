@@ -1,0 +1,16 @@
+{
+  "name": "fighthaven",
+  "version": "1.0.0",
+  "description": "The Bay Area Rationalist Fight Club",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "npm run build -- --watch & npx http-server public -p 3000 -c-1"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^9.1.5"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

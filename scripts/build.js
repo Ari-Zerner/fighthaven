@@ -34,158 +34,14 @@ function createEventHTML(event, isPreview = false) {
         `<div class="event-item">${content}</div>`;
 }
 
-function buildSite() {
-    // Create public directory if it doesn't exist
-    if (!fs.existsSync(publicDir)) {
-        fs.mkdirSync(publicDir);
-    }
-
-    // Create css directory in public
-    if (!fs.existsSync(path.join(publicDir, 'css'))) {
-        fs.mkdirSync(path.join(publicDir, 'css'));
-    }
-
-    // Create events directory in public
-    const publicEventsDir = path.join(publicDir, 'events');
-    if (!fs.existsSync(publicEventsDir)) {
-        fs.mkdirSync(publicEventsDir, { recursive: true });
-    }
-
-    // Copy static files
-    fs.copyFileSync(
-        path.join(staticDir, 'css/style.css'),
-        path.join(publicDir, 'css/style.css')
-    );
-
-    // Process events
-    const events = [];
-
-    if (fs.existsSync(eventsDir)) {
-        fs.readdirSync(eventsDir).forEach(file => {
-            if (file.endsWith('.md')) {
-                const filePath = path.join(eventsDir, file);
-                const fileContent = fs.readFileSync(filePath, 'utf8');
-                const { data, content } = matter(fileContent);
-                
-                events.push({
-                    ...data,
-                    body: marked(content),
-                    slug: path.basename(file, '.md')
-                });
-            }
-        });
-    }
-
-    // Sort events by date
-    const now = new Date();
-    events.sort((a, b) => new Date(a.date) - new Date(b.date));
-    const upcomingEvents = events.filter(event => new Date(event.date) >= now);
-    const pastEvents = events.filter(event => new Date(event.date) < now);
-
-    // Copy and process HTML files
-    ['index.html', 'events.html'].forEach(file => {
-        const template = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
-        let processedHtml = template;
-        
-        if (file === 'events.html') {
-            processedHtml = template.replace(
-                '<div id="events-container">Loading events...</div>',
-                `<div id="events-container">
-                    <h2>Upcoming Events</h2>
-                    ${upcomingEvents.length ? upcomingEvents.map(event => createEventHTML(event, true)).join('') 
-                        : '<p>No upcoming events scheduled. Join our Discord to hear about new events first!</p>'}
-                    
-                    <h2>Past Events</h2>
-                    ${pastEvents.length ? pastEvents.reverse().map(event => createEventHTML(event, true)).join('') 
-                        : '<p>No past events yet.</p>'}
-                </div>`
-            );
-        } else if (file === 'index.html') {
-            processedHtml = template.replace(
-                '<div id="next-event-container"></div>',
-                upcomingEvents.length ? `
-                <div id="next-event-container">
-                    ${createEventHTML(upcomingEvents[0], true)}
-                </div>` : ''
-            );
-        }
-        
-        fs.writeFileSync(path.join(publicDir, file), processedHtml);
-    });
-
-    // Copy and process 404 page
-    const notFoundTemplate = fs.readFileSync(path.join(__dirname, '..', '404.html'), 'utf8');
-    fs.writeFileSync(
-        path.join(publicDir, '404.html'),
-        notFoundTemplate.replace('href="/static/css/style.css"', 'href="/css/style.css"')
-    );
-
-    // Generate RSS feed
-    const rssContent = `<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
-<channel>
-    <title>Fighthaven Events</title>
-    <link>https://fighthaven.club</link>
-    <description>The latest events from Fighthaven</description>
-    ${events
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .map(event => `
-    <item>
-        <title>${event.title}</title>
-        <link>https://fighthaven.club/events/${event.slug}/</link>
-        <pubDate>${new Date(event.date).toUTCString()}</pubDate>
-        <description><![CDATA[${event.body}]]></description>
-        ${event.location ? `<location>${event.location}</location>` : ''}
-        ${event.meetup_link ? `<meetupLink>${event.meetup_link}</meetupLink>` : ''}
-    </item>`
-        )
-        .join('\n')}
-</channel>
-</rss>`;
-
-    fs.writeFileSync(path.join(publicDir, 'rss.xml'), rssContent);
-
-    // Copy robots.txt
-    fs.copyFileSync(
-        path.join(staticDir, 'robots.txt'),
-        path.join(publicDir, 'robots.txt')
-    );
-
-    // Generate sitemap
-    const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://fighthaven.club/</loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>https://fighthaven.club/events.html</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-    ${events.map(event => `
-    <url>
-        <loc>https://fighthaven.club/events/${event.slug}.html</loc>
-        <lastmod>${new Date(event.date).toISOString().split('T')[0]}</lastmod>
-        <priority>0.8</priority>
-    </url>`).join('')}
-</urlset>`;
-
-    fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapContent);
-
-    // Generate individual event pages with pretty URLs
-    events.forEach(event => {
-        const eventDir = path.join(publicEventsDir, event.slug);
-        if (!fs.existsSync(eventDir)) {
-            fs.mkdirSync(eventDir, { recursive: true });
-        }
-        const eventHtml = `<!DOCTYPE html>
+function createPage(content, title = '') {
+    const year = new Date().getFullYear();
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${event.title} - Fighthaven</title>
+    <title>${title ? `${title} - ` : ''}Fighthaven</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -199,51 +55,95 @@ function buildSite() {
         </nav>
     </header>
     <main>
-        ${createEventHTML(event, false)}
-        <p class="back-link"><a href="/events.html">← Back to all events</a></p>
+        ${content}
     </main>
     <footer>
-        <p>&copy; 2024 Fighthaven</p>
+        <p>&copy; ${year} Fighthaven</p>
     </footer>
 </body>
 </html>`;
-        fs.writeFileSync(path.join(eventDir, 'index.html'), eventHtml);
-    });
-
-    console.log('Build completed successfully!');
 }
 
-// If running in watch mode, watch for changes
-if (process.argv.includes('--watch')) {
-    console.log('Watching for changes...');
-    
-    // Initial build
-    buildSite();
-    
-    // Watch events directory
-    fs.watch(eventsDir, (eventType, filename) => {
-        if (filename && filename.endsWith('.md')) {
-            console.log(`Event file changed: ${filename}`);
-            buildSite();
-        }
+function buildSite() {
+    // Create directories
+    if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir);
+    if (!fs.existsSync(path.join(publicDir, 'css'))) fs.mkdirSync(path.join(publicDir, 'css'));
+    if (!fs.existsSync(path.join(publicDir, 'events'))) fs.mkdirSync(path.join(publicDir, 'events'), { recursive: true });
+
+    // Copy static files
+    fs.copyFileSync(path.join(staticDir, 'css/style.css'), path.join(publicDir, 'css/style.css'));
+
+    // Process events
+    const events = [];
+    if (fs.existsSync(eventsDir)) {
+        fs.readdirSync(eventsDir).forEach(file => {
+            if (file.endsWith('.md')) {
+                const filePath = path.join(eventsDir, file);
+                const { data, content } = matter(fs.readFileSync(filePath, 'utf8'));
+                events.push({
+                    ...data,
+                    body: marked(content),
+                    slug: path.basename(file, '.md')
+                });
+            }
+        });
+    }
+
+    // Sort events
+    const now = new Date();
+    events.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const upcomingEvents = events.filter(event => new Date(event.date) >= now);
+    const pastEvents = events.filter(event => new Date(event.date) < now);
+
+    // Generate pages
+    const homepageContent = `
+        <div class="welcome-section">
+            <h1>The Bay Area Rationalist Fight Club</h1>
+            <p>Welcome to Fighthaven, where mind meets might.</p>
+            <div class="cta-buttons">
+                <a href="/events.html" class="primary-button">View All Events</a>
+                <a href="https://discord.gg/SXhm3aQUA3" class="discord-button" target="_blank">Join Discord</a>
+            </div>
+        </div>
+        ${upcomingEvents.length ? `
+        <div id="next-event-container">
+            ${createEventHTML(upcomingEvents[0], true)}
+        </div>` : ''}`;
+    fs.writeFileSync(path.join(publicDir, 'index.html'), createPage(homepageContent));
+
+    const eventsContent = `
+        <h1>Events</h1>
+        <div id="events-container">
+            <h2>Upcoming Events</h2>
+            ${upcomingEvents.length ? upcomingEvents.map(event => createEventHTML(event, true)).join('') 
+                : '<p>No upcoming events scheduled. Join our Discord to hear about new events first!</p>'}
+            
+            <h2>Past Events</h2>
+            ${pastEvents.length ? pastEvents.reverse().map(event => createEventHTML(event, true)).join('') 
+                : '<p>No past events yet.</p>'}
+        </div>`;
+    fs.writeFileSync(path.join(publicDir, 'events.html'), createPage(eventsContent, 'Events'));
+
+    // Generate individual event pages
+    events.forEach(event => {
+        const eventDir = path.join(publicDir, 'events', event.slug);
+        if (!fs.existsSync(eventDir)) fs.mkdirSync(eventDir, { recursive: true });
+        const eventContent = `
+            ${createEventHTML(event, false)}
+            <p class="back-link"><a href="/events.html">← Back to all events</a></p>`;
+        fs.writeFileSync(path.join(eventDir, 'index.html'), createPage(eventContent, event.title));
     });
-    
-    // Watch static files
-    fs.watch(staticDir, { recursive: true }, (eventType, filename) => {
-        if (filename) {
-            console.log(`Static file changed: ${filename}`);
-            buildSite();
-        }
-    });
-    
-    // Watch HTML files
-    fs.watch(path.join(__dirname, '..'), (eventType, filename) => {
-        if (filename && filename.endsWith('.html')) {
-            console.log(`HTML file changed: ${filename}`);
-            buildSite();
-        }
-    });
-} else {
-    // Just do a single build
-    buildSite();
+
+    // Generate 404 page
+    const notFoundContent = `
+        <div class="welcome-section">
+            <h1>404 - Page Not Found</h1>
+            <p>Sorry, we couldn't find the page you're looking for.</p>
+            <div class="cta-buttons">
+                <a href="/" class="primary-button">Return Home</a>
+            </div>
+        </div>`;
+    fs.writeFileSync(path.join(publicDir, '404.html'), createPage(notFoundContent, 'Page Not Found'));
 }
+
+buildSite();

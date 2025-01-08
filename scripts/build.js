@@ -34,8 +34,10 @@ function formatTime(time) {
 function createEventHTML(event, isPreview = false) {
     const content = `
         <h3>${event.title}</h3>
-        <p class="date">${formatDate(event.date)} at ${formatTime(event.time)}</p>
-        ${event.location ? `<p class="location">📍 ${event.location}</p>` : ''}
+        <div class="event-details">
+            <p class="date">${formatDate(event.date)} at ${formatTime(event.time)}</p>
+            ${event.location ? `<p class="location">📍 ${event.location}</p>` : ''}
+        </div>
         ${event.meetup_link ? `<p class="meetup-link">🎟️ <a href="${event.meetup_link}" target="_blank" class="meetup-button">RSVP on Partiful</a></p>` : ''}
         <div class="event-content">${event.body}</div>
     `;

@@ -28,7 +28,8 @@ This is the website for Fighthaven, the Bay Area Rationalist Fight Club.
    ```yaml
    ---
    title: "Event Title"
-   date: YYYY-MM-DDTHH:MM:SS-08:00
+   date: YYYY-MM-DD
+   time: HH:MM
    location: "Location Name"
    meetup_link: "https://partiful.com/..."  # Optional: Link to registration
    ---

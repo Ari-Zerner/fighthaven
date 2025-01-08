@@ -8,22 +8,33 @@ const eventsDir = path.join(__dirname, '../events');
 const publicDir = path.join(__dirname, '../public');
 const staticDir = path.join(__dirname, '../static');
 
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric'
-    });
+function formatDate(date) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    const dayOfWeek = days[date.getUTCDay()];
+    const month = months[date.getUTCMonth()];
+    const dayOfMonth = date.getUTCDate();
+    const year = date.getUTCFullYear();
+
+    return `${dayOfWeek}, ${month} ${dayOfMonth}, ${year}`;
+}
+
+function formatTime(time) {
+    // time is given as minutes since midnight
+    const hours = Math.floor(time / 60);
+    const minutes = time % 60;
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    const displayMinutes = minutes.toString().padStart(2, '0');
+
+    return `${displayHours}:${displayMinutes} ${period}`;
 }
 
 function createEventHTML(event, isPreview = false) {
     const content = `
         <h3>${event.title}</h3>
-        <p class="date">${formatDate(event.date)}</p>
+        <p class="date">${formatDate(event.date)} at ${formatTime(event.time)}</p>
         ${event.location ? `<p class="location">📍 ${event.location}</p>` : ''}
         ${event.meetup_link ? `<p class="meetup-link">🎟️ <a href="${event.meetup_link}" target="_blank" class="meetup-button">RSVP on Partiful</a></p>` : ''}
         <div class="event-content">${event.body}</div>

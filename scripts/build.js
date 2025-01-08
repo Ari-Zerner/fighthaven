@@ -33,7 +33,7 @@ function formatTime(time) {
 
 function createEventHTML(event, isPreview = false) {
     const content = `
-        <h3>${event.title}</h3>
+        <h3>${event.title ? event.title : 'Fighthaven Meetup'}</h3>
         <div class="event-details">
             <p class="date">${formatDate(event.date)} at ${formatTime(event.time)}</p>
             ${event.location ? `<p class="location">📍 ${event.location}</p>` : ''}

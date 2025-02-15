@@ -102,11 +102,29 @@ function buildSite() {
         });
     }
 
-    // Sort events
+    // Sort events and filter into upcoming/past
     const now = new Date();
     events.sort((a, b) => new Date(a.date) - new Date(b.date));
-    const upcomingEvents = events.filter(event => new Date(event.date) >= now);
-    const pastEvents = events.filter(event => new Date(event.date) < now);
+
+    // Convert event time (minutes since midnight) to full date-time
+    const getEventDateTime = (event) => {
+        const eventDate = new Date(event.date);
+        const hours = Math.floor(event.time / 60);
+        const minutes = event.time % 60;
+        eventDate.setUTCHours(hours, minutes);
+        return eventDate;
+    };
+
+    // If event.duration exists, add it to the end time, otherwise default to 2 hours
+    const getEventEndTime = (event) => {
+        const endTime = getEventDateTime(event);
+        const durationInMinutes = event.duration || 120; // Default 2 hours if not specified
+        endTime.setUTCMinutes(endTime.getUTCMinutes() + durationInMinutes);
+        return endTime;
+    };
+
+    const upcomingEvents = events.filter(event => getEventEndTime(event) >= now);
+    const pastEvents = events.filter(event => getEventEndTime(event) < now);
 
     // Generate pages
     const homepageContent = `

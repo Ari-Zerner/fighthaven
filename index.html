@@ -12,19 +12,41 @@
     <link rel="canonical" href="https://fighthaven.club">
     <link rel="alternate" type="application/rss+xml" title="Fighthaven Events" href="/rss.xml">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@400;700&display=swap');
+        
+        :root {
+            --primary-color: #e50914;
+            --bg-color: #0a0a0a;
+            --text-color: #f0f0f0;
+            --circuit-color: #1a1a1a;
+            --glitch-color: #00ff00;
+        }
+        
         body {
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: 'Share Tech Mono', monospace;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            color: #333;
+            color: var(--text-color);
+            background: var(--bg-color);
+            background-image: 
+                radial-gradient(var(--circuit-color) 1px, transparent 1px),
+                radial-gradient(var(--circuit-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
         }
+        
         header {
-            background: #000;
-            color: white;
+            background: rgba(0,0,0,0.9);
+            border-bottom: 2px solid var(--primary-color);
             padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
+        
         nav {
             display: flex;
             justify-content: space-between;
@@ -32,13 +54,24 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+        
         nav h1 {
             margin: 0;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
+        
         nav a {
-            color: white;
+            color: var(--text-color);
             text-decoration: none;
+            position: relative;
         }
+        
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        
         nav ul {
             display: flex;
             gap: 2rem;
@@ -46,49 +79,156 @@
             margin: 0;
             padding: 0;
         }
+        
         main {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
+        
         .welcome-section {
             text-align: center;
             margin-bottom: 3rem;
+            position: relative;
         }
+        
+        .welcome-section h1 {
+            font-size: 4rem;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            margin: 0;
+            padding: 2rem 0;
+            position: relative;
+            text-shadow: 2px 2px 0px var(--primary-color);
+        }
+        
+        .content-section {
+            background: rgba(0,0,0,0.7);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 49%, var(--circuit-color) 49%, var(--circuit-color) 51%, transparent 51%);
+            background-size: 10px 10px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        h2, h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            margin: 1.5rem 0;
+            padding-left: 1rem;
+            font-style: italic;
+            color: var(--glitch-color);
+        }
+        
         .cta-buttons {
             display: flex;
             gap: 1rem;
             justify-content: center;
             margin-top: 2rem;
         }
+        
         .primary-button, .discord-button {
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
+            padding: 1rem 2rem;
             text-decoration: none;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
         }
+        
         .primary-button {
-            background: #000;
-            color: white;
+            background: var(--primary-color);
+            color: var(--text-color);
         }
+        
         .discord-button {
             background: #5865F2;
-            color: white;
+            color: var(--text-color);
+            border-color: #5865F2;
         }
-        .content-section {
-            margin-bottom: 2rem;
+        
+        .primary-button:hover, .discord-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
         }
+        
+        .warning {
+            background: rgba(229, 9, 20, 0.1);
+            border: 1px solid var(--primary-color);
+            padding: 1rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .warning::before {
+            content: '⚠️';
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            background: var(--bg-color);
+            padding: 0 10px;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+        
+        ul li {
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+        
+        ul li::before {
+            content: '>';
+            color: var(--primary-color);
+            position: absolute;
+            left: -1.5rem;
+            font-weight: bold;
+        }
+        
         footer {
-            background: #f5f5f5;
+            background: rgba(0,0,0,0.9);
             text-align: center;
             padding: 1rem;
             margin-top: 4rem;
+            border-top: 2px solid var(--primary-color);
         }
-        .warning {
-            background: #ffe5e5;
-            padding: 1rem;
-            border-radius: 4px;
-            margin: 2rem 0;
+        
+        @media (max-width: 768px) {
+            .welcome-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .content-section {
+                padding: 1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>

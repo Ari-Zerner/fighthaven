@@ -127,15 +127,62 @@ function buildSite() {
     const pastEvents = events.filter(event => getEventEndTime(event) < now);
 
     // Generate pages
-    const homepageContent = `
+const homepageContent = `
         <div class="welcome-section">
-            <h1>The Bay Area Rationalist Fight Club</h1>
-            <p>Welcome to Fighthaven, where mind meets might.</p>
+            <h1>🥊 WELCOME TO FIGHTHAVEN 🧠</h1>
+            <h2>Where Theory Meets Practice (Somewhere Near Berkeley)</h2>
+            
             <div class="cta-buttons">
                 <a href="/events.html" class="primary-button">View All Events</a>
                 <a href="https://discord.gg/SXhm3aQUA3" class="discord-button" target="_blank">Join Discord</a>
             </div>
         </div>
+
+        <div class="intro-section">
+            <h2>DECISION THEORY? HAVE YOU CONSIDERED DECISION PRACTICE!?</h2>
+            <blockquote>"Recursive self-improvement is recursive masturbation."</blockquote>
+            
+            <p>The first rule of Fighthaven is: you must actually practice.<br>
+            The second rule of Fighthaven is: you MUST actually practice.<br>
+            The third rule of Fighthaven is: if someone starts explaining quines during sparring, the fight is over.</p>
+
+            <p>We're just some nerds who think rationality could use more punching. The world needs more PvP zones, and we're building one.</p>
+            
+            <h3>Step into the ring where:</h3>
+            <ul>
+                <li>Your decision theory meets a right hook</li>
+                <li>Your expected utility calculations meet unexpected left jabs</li>
+                <li>Your hypotheticals meet empirical testing</li>
+                <li>Your rational agent models meet irrational amounts of sweat</li>
+            </ul>
+        </div>
+
+        <div class="activities-section">
+            <h2>Our Practice Grounds</h2>
+            
+            <h3>BOXING</h3>
+            <p>Put your theories to the test:</p>
+            <ul>
+                <li>Learn what works through direct feedback</li>
+                <li>Spar with others who think AND do</li>
+                <li>Update your models in real-time</li>
+                <li>Practice decisions under pressure</li>
+            </ul>
+
+            <h3>CHESS BOXING</h3>
+            <ul>
+                <li>3-minute chess rounds (theory under pressure)</li>
+                <li>2-minute boxing rounds (practice under pressure)</li>
+                <li>Victory by checkmate OR knockout (reality is the judge)</li>
+            </ul>
+
+            <h3>COMING SOON</h3>
+            <ul>
+                <li>Grappling: Brazilian Jiu-Jitsu meets Bayesian inference</li>
+                <li>Sword Fighting: Red plastic swords for empirical testing</li>
+            </ul>
+        </div>
+
         ${upcomingEvents.length ? `
         <div id="next-event-container">
             ${createEventHTML(upcomingEvents[0], true)}

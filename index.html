@@ -1,399 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fighthaven - The Bay Area Rationalist Fight Club</title>
-    <meta name="description" content="Welcome to Fighthaven, where mind meets might and decision theory meets practice.">
-    <meta property="og:title" content="Fighthaven">
-    <meta property="og:description" content="The Bay Area Rationalist Fight Club">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://fighthaven.club">
-    <link rel="canonical" href="https://fighthaven.club">
-    <link rel="alternate" type="application/rss+xml" title="Fighthaven Events" href="/rss.xml">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@400;700&display=swap');
-        
-        :root {
-            --primary-color: #e50914;
-            --bg-color: #0a0a0a;
-            --text-color: #f0f0f0;
-            --circuit-color: #1a1a1a;
-            --glitch-color: #00ff00;
-        }
-        
-        body {
-            font-family: 'Share Tech Mono', monospace;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: var(--text-color);
-            background: var(--bg-color);
-            background-image: 
-                radial-gradient(var(--circuit-color) 1px, transparent 1px),
-                radial-gradient(var(--circuit-color) 1px, transparent 1px);
-            background-size: 50px 50px;
-            background-position: 0 0, 25px 25px;
-        }
-        
-        header {
-            background: rgba(0,0,0,0.9);
-            border-bottom: 2px solid var(--primary-color);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        nav h1 {
-            margin: 0;
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            position: relative;
-        }
-        
-        nav a:hover {
-            color: var(--primary-color);
-        }
-        
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .welcome-section {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-        
-        .welcome-section h1 {
-            font-size: 4rem;
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            margin: 0;
-            padding: 2rem 0;
-            position: relative;
-            text-shadow: 2px 2px 0px var(--primary-color);
-        }
-        
-        .content-section {
-            background: rgba(0,0,0,0.7);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--primary-color);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .content-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 49%, var(--circuit-color) 49%, var(--circuit-color) 51%, transparent 51%);
-            background-size: 10px 10px;
-            opacity: 0.1;
-            z-index: -1;
-        }
-        
-        h2, h3 {
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            color: var(--primary-color);
-            margin-top: 0;
-        }
-        
-        blockquote {
-            border-left: 4px solid var(--primary-color);
-            margin: 1.5rem 0;
-            padding-left: 1rem;
-            font-style: italic;
-            color: var(--glitch-color);
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-        
-        .primary-button, .discord-button {
-            padding: 1rem 2rem;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 2px solid var(--primary-color);
-        }
-        
-        .primary-button {
-            background: var(--primary-color);
-            color: var(--text-color);
-        }
-        
-        .discord-button {
-            background: #5865F2;
-            color: var(--text-color);
-            border-color: #5865F2;
-        }
-        
-        .primary-button:hover, .discord-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
-        }
-        
-        .warning {
-            background: rgba(229, 9, 20, 0.1);
-            border: 1px solid var(--primary-color);
-            padding: 1rem;
-            margin: 2rem 0;
-            position: relative;
-        }
-        
-        .warning::before {
-            content: '⚠️';
-            position: absolute;
-            top: -15px;
-            left: 15px;
-            background: var(--bg-color);
-            padding: 0 10px;
-        }
-        
-        ul {
-            list-style: none;
-            padding-left: 1.5rem;
-        }
-        
-        ul li {
-            position: relative;
-            margin-bottom: 0.5rem;
-        }
-        
-        ul li::before {
-            content: '>';
-            color: var(--primary-color);
-            position: absolute;
-            left: -1.5rem;
-            font-weight: bold;
-        }
-        
-        footer {
-            background: rgba(0,0,0,0.9);
-            text-align: center;
-            padding: 1rem;
-            margin-top: 4rem;
-            border-top: 2px solid var(--primary-color);
-        }
-        
-        @media (max-width: 768px) {
-            .welcome-section h1 {
-                font-size: 2.5rem;
-            }
-            
-            .content-section {
-                padding: 1rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fighthaven</title>
+  <meta name="description" content="Rationalist-flavored fight club in Berkeley, CA. Wrestling, boxing, boffer swords, and more at Willard Park.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --text-dim: #888;
+      --accent: #c43c3c;
+      --accent-glow: #e04040;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 1.5rem 3rem;
+      max-width: 640px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero .accent {
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      max-width: 440px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .discord-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #5865F2;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .discord-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(88, 101, 242, 0.35);
+    }
+
+    .discord-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      max-width: 640px;
+      width: 100%;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+
+    .card.full {
+      grid-column: 1 / -1;
+    }
+
+    .card h2 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .card p, .card li {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .card ul {
+      padding-left: 1.25rem;
+    }
+
+    .card ul li::marker {
+      color: var(--accent);
+    }
+
+    .ethos {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 0 1.5rem 3rem;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .ethos strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 500px) {
+      .hero { padding: 3.5rem 1.25rem 2rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .cards { grid-template-columns: 1fr; padding: 0 1.25rem 3rem; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <h1><a href="/">Fighthaven</a></h1>
-            <ul>
-                <li><a href="/events.html">Events</a></li>
-                <li><a href="https://discord.gg/SXhm3aQUA3" target="_blank">Discord</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="welcome-section">
-            <h1>🥊 WELCOME TO FIGHTHAVEN 🧠</h1>
-            <h2>Where Theory Meets Practice (Somewhere Near Berkeley)</h2>
-        </div>
 
-        <div class="content-section">
-            <h2>DECISION THEORY? HAVE YOU CONSIDERED DECISION PRACTICE!?</h2>
-            <blockquote>"Recursive self-improvement is recursive masturbation."</blockquote>
-            <p>You are not your rationalist blog. You are not your karma score. You are not your prediction track record. You're not your GPT embeddings. You're not the copies of you in other branches of the multiverse who actually exercise.</p>
-            <p>The first rule of Fighthaven is: you must actually practice.<br>
-            The second rule of Fighthaven is: you MUST actually practice.<br>
-            The third rule of Fighthaven is: if someone starts explaining quines during sparring, the fight is over.</p>
-            
-            <p>We're just some nerds who think rationality could use more punching. We've all read the sequences. We've all posted on LessWrong. We've all optimized our Anki decks. Now it's time to optimize these hands.</p>
-            
-            <p>This is your empiricism on concrete. This is your epistemology in the ring. This is your phenomenological experience of getting punched in the face while trying to explain why actually, from a technical perspective, you already won this fight in theory.</p>
-            
-            <h3>Step into the ring where:</h3>
-            <ul>
-                <li>Your decision theory meets a right hook</li>
-                <li>Your expected utility calculations meet unexpected left jabs</li>
-                <li>Your hypotheticals meet empirical testing</li>
-                <li>Your rational agent models meet irrational amounts of sweat</li>
-                <li>Your probability estimates meet precise measurements of your unconscious body</li>
-                <li>Your novel insights about coordination problems meet my lack of coordination problems</li>
-            </ul>
-        </div>
+  <div class="hero">
+    <h1>Fight<span class="accent">haven</span></h1>
+    <p class="tagline">Berkeley's rationalist-flavored fight club.</p>
+    <a class="discord-btn" href="https://discord.gg/SXhm3aQUA3" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      Join the Discord
+    </a>
+  </div>
 
-        <div class="content-section">
-            <h2>Our Virtues</h2>
-            
-            <h3>TSUYOKU NARITAI (BECOMING STRONGER)</h3>
-            <p>We're not here to converge on local maxima. We're here to:</p>
-            <ul>
-                <li>Practice getting stronger, not just theorize about it</li>
-                <li>Test our capabilities, not just estimate them</li>
-                <li>Push our limits, not just calculate them</li>
-                <li>Actually throw hands, not just write proofs about them</li>
-                <li>Make yourself stronger today than you were yesterday (no, writing a blog post about getting stronger doesn't count)</li>
-            </ul>
+  <div class="cards">
+    <div class="card">
+      <h2>Where</h2>
+      <p>Willard Park<br>Berkeley, CA</p>
+    </div>
+    <div class="card">
+      <h2>When</h2>
+      <p>Ad hoc scheduling, often Sunday afternoons. Check Discord for the latest.</p>
+    </div>
+    <div class="card full">
+      <h2>What we do</h2>
+      <ul>
+        <li>Wrestling games</li>
+        <li>Body-shot boxing</li>
+        <li>Boffer swords</li>
+        <li>Marker "knife" fighting</li>
+        <li>Bring your own ideas and equipment if you want!</li>
+      </ul>
+    </div>
+  </div>
 
-            <h3>TOUCHING GRASS</h3>
-            <p>I want you to hit me as hard as reality does (which is to say, with complete indifference to your clever arguments):</p>
-            <ul>
-                <li>Feel the canvas under your feet</li>
-                <li>Experience the immediate feedback of a jab</li>
-                <li>Learn what no amount of reading could teach you</li>
-                <li>Update your priors through direct experience</li>
-                <li>Realize that no amount of forum posts will teach you head movement</li>
-                <li>Accept that you can't talk your way out of a rear naked choke</li>
-            </ul>
+  <p class="ethos">
+    <strong>All experience levels welcome.</strong> We optimize for fun, safety, and learning. Show up, be cool, and fight your friends.
+  </p>
 
-            <h3>MAKING CONTACT WITH REALITY</h3>
-            <p>Here's where:</p>
-            <ul>
-                <li>Decision theory becomes decision practice</li>
-                <li>Rational agents face rational opponents</li>
-                <li>Expected utility meets unexpected reality</li>
-                <li>Epistemic uncertainty meets physical certainty</li>
-                <li>Your beautiful theory meets my ugly facts</li>
-                <li>Your 5000-word explanation of why you won meets the actual scoreboard</li>
-            </ul>
-        </div>
-
-        <div class="content-section">
-            <h2>Our Practice Grounds</h2>
-            <h3>BOXING</h3>
-            <p>Put your theories to the test:</p>
-            <ul>
-                <li>Learn what works through direct feedback</li>
-                <li>Spar with others who think AND do</li>
-                <li>Update your models in real-time</li>
-                <li>Practice decisions under pressure</li>
-                <li>Discover what you actually believe about pain</li>
-                <li>Finally understand what "making beliefs pay rent" means</li>
-            </ul>
-
-            <h3>CHESS BOXING</h3>
-            <p>The ultimate synthesis of theory and practice:</p>
-            <ul>
-                <li>3-minute chess rounds (theory under pressure)</li>
-                <li>2-minute boxing rounds (practice under pressure)</li>
-                <li>Victory by checkmate OR knockout (reality is the judge)</li>
-                <li>Finally, a use for all those hours on chess.com</li>
-                <li>Test your consciousness is an illusion hypothesis (spoiler: pain is real)</li>
-                <li>Bullet chess but with actual bullets (metaphorically speaking)</li>
-            </ul>
-
-            <h3>NEWCOMB'S BOXING</h3>
-            <p>The ultimate decision theory experiment:</p>
-            <ul>
-                <li>Box A contains either victory or defeat</li>
-                <li>Box B contains certain pain</li>
-                <li>Omega has already predicted your performance</li>
-                <li>Choose wisely, punch correctly</li>
-                <li>Update your decision theory in real-time</li>
-                <li>Realize that Omega doesn't care about your clever workarounds</li>
-            </ul>
-
-            <h3>COMING SOON</h3>
-            <ul>
-                <li>Grappling: Brazilian Jiu-Jitsu meets Bayesian inference (now with actual posterior distributions)</li>
-                <li>Sword Fighting: Red plastic swords for empirical testing of medieval combat theories (LARP but spicier)</li>
-                <li>AI Boxing: Finally, a containment protocol that works (terms and conditions apply)</li>
-            </ul>
-        </div>
-
-        <div class="content-section">
-            <h2>Location & Schedule</h2>
-            <p>Reality testing sessions somewhere near Berkeley campus (exact location shared after we know you're not a philosophy professor trying to shut us down):</p>
-            <ul>
-                <li>Boxing: [TIMES TBD]</li>
-                <li>Chess Boxing: When theory meets practice</li>
-                <li>Post-Training Gym Sessions: Because strong bodies support strong minds (and we're tired of being the weakest people at protestware meetings)</li>
-            </ul>
-        </div>
-
-        <div class="content-section">
-            <h2>Join Us in Reality</h2>
-            <p>Perfect for:</p>
-            <ul>
-                <li>People ready to practice what they theorize</li>
-                <li>Anyone who thinks rationality needs more punching</li>
-                <li>Thinkers ready to become doers</li>
-                <li>Those who understand that knowledge isn't power - applied knowledge is</li>
-                <li>Everyone who's ever written "effortpost" in a title</li>
-                <li>That one person who keeps trying to solve alignment with interpretive dance</li>
-            </ul>
-
-            <h3>Current Status:</h3>
-            <ul>
-                <li>Boxing: ACTIVE (Decision Practice 101)</li>
-                <li>Chess Boxing: ACTIVE (Advanced Decision Practice)</li>
-                <li>Grappling: Loading...</li>
-                <li>Sword Fighting: In Beta</li>
-                <li>Your Theories: Ready For Testing</li>
-                <li>Your Excuses: We've Heard Them All</li>
-            </ul>
-        </div>
-
-        <div class="warning">
-            ⚠️ WARNING: Side effects may include: realizing how many of your theories don't survive contact with reality, developing actual capabilities, uncontrollable urges to ask "but have you practiced it?" in philosophy discussions, occasional bruises, and a drastically reduced tolerance for people who start sentences with "well, technically..."
-        </div>
-
-        <div class="cta-buttons">
-            <a href="/events.html" class="primary-button">View All Events</a>
-            <a href="https://discord.gg/SXhm3aQUA3" class="discord-button" target="_blank">Join Discord</a>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2024 Fighthaven</p>
-    </footer>
 </body>
 </html>

@@ -1,11 +1,2 @@
 [build]
-  publish = "public"
-  command = "npm install && npm run build"
-
-[[redirects]]
-  from = "/*"
-  to = "/404.html"
-  status = 404
-
-[build.environment]
-  NODE_VERSION = "18"
+  publish = "."
